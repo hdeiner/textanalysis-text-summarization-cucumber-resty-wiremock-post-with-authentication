@@ -1,0 +1,17 @@
+{
+  "request" : {
+    "url" : "/text-summarizer",
+    "method" : "POST",
+    "bodyPatterns" : [{
+      "equalToJson" : "{\"url\": \"https://en.wikipedia.org/wiki/Cucumber_(software)\", \"text\": \"\", \"sentnum\": 6}"
+    }]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "wikipedia-Cucumber_(software).json",
+    "headers" : {
+      "X-Mashape-Key" : "dz76zlrCVimsh0GehwwnBjbZVXdgp1LwLckjsnety8AmdZq63k",
+      "Content-Type" : "application/json"
+    }
+  }
+}

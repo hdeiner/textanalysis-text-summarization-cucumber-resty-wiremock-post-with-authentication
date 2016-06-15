@@ -1,0 +1,17 @@
+{
+  "request" : {
+    "url" : "/text-summarizer",
+    "method" : "POST",
+    "bodyPatterns" : [{
+      "equalToJson" : "{\"url\": \"https://en.wikipedia.org/wiki/Automatic_summarization\", \"text\": \"\", \"sentnum\": 5}"
+    }]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "wikipedia-Automatic_summarization.json",
+    "headers" : {
+      "X-Mashape-Key" : "dz76zlrCVimsh0GehwwnBjbZVXdgp1LwLckjsnety8AmdZq63k",
+      "Content-Type" : "application/json"
+    }
+  }
+}

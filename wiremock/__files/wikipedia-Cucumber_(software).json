@@ -1,0 +1,10 @@
+{
+  "sentences": [
+    "Some use Ruby Cucumber with a bridge into the target language (e.g.",
+    "Cucumber is a software tool that computer programmers use for testing other software.",
+    "It runs automated acceptance tests written in a behavior-driven development (BDD) style.",
+    "Others use the Gherkin parser but implement everything else in the target language.",
+    "Cucumber is written in the Ruby programming language.",
+    "Gherkin is the language that Cucumber uses to define test cases."
+  ]
+}
