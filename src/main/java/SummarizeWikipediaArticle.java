@@ -9,15 +9,12 @@ import us.monoid.json.JSONArray;
 import us.monoid.json.JSONObject;
 import us.monoid.web.JSONResource;
 import us.monoid.web.Resty;
-import us.monoid.web.Resty.Option;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import static us.monoid.web.Resty.Option.timeout;
 import static us.monoid.web.Resty.content;
-import static us.monoid.web.Resty.Timeout;
 
 public class SummarizeWikipediaArticle {
 	private JSONArray sentences;

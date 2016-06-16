@@ -29,7 +29,7 @@ public class StepDefs {
 	@Given("^I am testing on the actual web service with a timeout of \"(\\d+)\" milliseconds$")
 	public void i_am_testing_on_the_actual_web_service_with_a_timeout(int delayInMilliSeconds) throws Throwable {
 		useFakeServer = false;
-		this.delayInMilliSeconds = delayInMilliSeconds;
+		StepDefs.delayInMilliSeconds = delayInMilliSeconds;
 	}
 
 	@When("^I summarize the wikipedia article for \"([^\"]*)\" in \"([^\"]*)\" sentances,$")
