@@ -20,9 +20,6 @@ import static us.monoid.web.Resty.content;
 import static us.monoid.web.Resty.Timeout;
 
 public class SummarizeWikipediaArticle {
-	private URL url;
-	private URI uri;
-	private JSONResource response;
 	private JSONArray sentences;
     private static final String X_MASHAPE_KEY = "dz76zlrCVimsh0GehwwnBjbZVXdgp1LwLckjsnety8AmdZq63k";
 
@@ -35,12 +32,14 @@ public class SummarizeWikipediaArticle {
         resty.withHeader("X-Mashape-Key", X_MASHAPE_KEY);
 
 		WireMockServer wireMockServer = null;
-		
+
+        URL url;
+        URI uri;
         if (!useFakeServer) {
             url = new URL("https://textanalysis-text-summarization.p.mashape.com/text-summarizer");
         } else {
             FileSource fileSource=new SingleRootFileSource("./wiremock");
-            FileSource filesFileSource=fileSource.child("__files");
+//            FileSource filesFileSource=fileSource.child("__files");
             FileSource mappingsFileSource=fileSource.child("mappings");
 				
             CommandLineOptions options=new CommandLineOptions();
@@ -57,7 +56,7 @@ public class SummarizeWikipediaArticle {
         uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
         String requestToPost = "{\"url\": \"https://en.wikipedia.org/wiki/" + articleToSummarize + "\",\"text\": \"\",\"sentnum\": " + Integer.toString(numberOfSentances) + "}";
 
-        response = resty.json(uri,content(new JSONObject(requestToPost)));
+        JSONResource response = resty.json(uri,content(new JSONObject(requestToPost)));
         sentences = new JSONArray(response.get("sentences").toString());
 
 		if (useFakeServer) {

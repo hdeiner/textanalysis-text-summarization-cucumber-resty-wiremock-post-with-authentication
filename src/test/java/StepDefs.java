@@ -5,13 +5,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import main.java.SummarizeWikipediaArticle;
-import org.junit.Rule;
-import org.junit.matchers.JUnitMatchers;
-import org.junit.rules.ExpectedException;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 
 public class StepDefs {
@@ -28,7 +23,7 @@ public class StepDefs {
 	@Given("^I am testing on the fake web service$")
 	public void i_am_testing_on_the_fake_web_service() throws Throwable {
 		useFakeServer = true;
-		this.delayInMilliSeconds = 0;
+		delayInMilliSeconds = 0;
 	}
 
 	@Given("^I am testing on the actual web service with a timeout of \"(\\d+)\" milliseconds$")
