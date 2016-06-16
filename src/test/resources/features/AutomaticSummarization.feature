@@ -29,3 +29,8 @@ Feature: Automatic Summarization Service
       |3         |Automatic data summarization is part of machine learning and data mining.                                                                                  |
       |4         |In some application domains, extractive summarization makes more sense.                                                                                    |
       |5         |The different types of automatic summarization include extraction-based, abstraction-based, maximum entropy-based, and aided summarization.                |
+
+
+  Scenario: Wikipedia article on Automatic_summarization timeout
+    Given I am testing on the actual web service with a timeout of "30" milliseconds
+    Then when I summarize the wikipedia article for "Automatic_summarization" in "5" sentances, I should see a timeout exception

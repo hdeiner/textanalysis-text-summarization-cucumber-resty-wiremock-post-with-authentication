@@ -9,11 +9,15 @@ import us.monoid.json.JSONArray;
 import us.monoid.json.JSONObject;
 import us.monoid.web.JSONResource;
 import us.monoid.web.Resty;
+import us.monoid.web.Resty.Option;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
+import static us.monoid.web.Resty.Option.timeout;
 import static us.monoid.web.Resty.content;
+import static us.monoid.web.Resty.Timeout;
 
 public class SummarizeWikipediaArticle {
 	private URL url;
@@ -22,38 +26,40 @@ public class SummarizeWikipediaArticle {
 	private JSONArray sentences;
     private static final String X_MASHAPE_KEY = "dz76zlrCVimsh0GehwwnBjbZVXdgp1LwLckjsnety8AmdZq63k";
 
-	public SummarizeWikipediaArticle(String articleToSummarize, int numberOfSentances, boolean useFakeServer) {
-	
-		Resty restCall = new Resty();
-        restCall.withHeader("X-Mashape-Key", X_MASHAPE_KEY);
+	public SummarizeWikipediaArticle(String articleToSummarize, int numberOfSentances, boolean useFakeServer, int delayInMilliSeconds) throws Exception {
+		Resty resty;
+
+		resty = new Resty();
+        if (delayInMilliSeconds > 0) resty.setOptions(timeout(delayInMilliSeconds));
+
+        resty.withHeader("X-Mashape-Key", X_MASHAPE_KEY);
 
 		WireMockServer wireMockServer = null;
 		
-		try {
-			if (!useFakeServer) {
-				url = new URL("https://textanalysis-text-summarization.p.mashape.com/text-summarizer");
-			} else {				
-				FileSource fileSource=new SingleRootFileSource("./wiremock");
-				FileSource filesFileSource=fileSource.child("__files");
-				FileSource mappingsFileSource=fileSource.child("mappings");
+        if (!useFakeServer) {
+            url = new URL("https://textanalysis-text-summarization.p.mashape.com/text-summarizer");
+        } else {
+            FileSource fileSource=new SingleRootFileSource("./wiremock");
+            FileSource filesFileSource=fileSource.child("__files");
+            FileSource mappingsFileSource=fileSource.child("mappings");
 				
-				CommandLineOptions options=new CommandLineOptions();
+            CommandLineOptions options=new CommandLineOptions();
 
-				wireMockServer=new WireMockServer(Options.DEFAULT_PORT, fileSource, options.browserProxyingEnabled());				
-				wireMockServer.loadMappingsUsing(new JsonFileMappingsLoader(mappingsFileSource));
-				
-				wireMockServer.start();
+            wireMockServer=new WireMockServer(Options.DEFAULT_PORT, fileSource, options.browserProxyingEnabled());
+            wireMockServer.loadMappingsUsing(new JsonFileMappingsLoader(mappingsFileSource));
+            if (delayInMilliSeconds > 0) wireMockServer.addRequestProcessingDelay(delayInMilliSeconds*10);
 
-				url = new URL("http://localhost:8080/text-summarizer");
-			}
+            wireMockServer.start();
 
-			uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-			String requestToPost = "{\"url\": \"https://en.wikipedia.org/wiki/" + articleToSummarize + "\",\"text\": \"\",\"sentnum\": " + Integer.toString(numberOfSentances) + "}";
-            response = restCall.json(uri,content(new JSONObject(requestToPost)));
-			sentences = new JSONArray(response.get("sentences").toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            url = new URL("http://localhost:8080/text-summarizer");
+        }
+
+        uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+        String requestToPost = "{\"url\": \"https://en.wikipedia.org/wiki/" + articleToSummarize + "\",\"text\": \"\",\"sentnum\": " + Integer.toString(numberOfSentances) + "}";
+
+        response = resty.json(uri,content(new JSONObject(requestToPost)));
+        sentences = new JSONArray(response.get("sentences").toString());
+
 		if (useFakeServer) {
 			wireMockServer.stop();
 		}
