@@ -48,7 +48,7 @@ public class StepDefs {
     @Then("^when I summarize the wikipedia article for \"([^\"]*)\" in \"([^\"]*)\" sentances, I should see a timeout exception$")
     public void when_I_summarize_the_wikipedia_article_for_in_sentances_I_should_see_a_timeout(String articleToSummarize, int numberOfSentances)  {
         try {
-            summarizeWikipediaArticle = new SummarizeWikipediaArticle(articleToSummarize, numberOfSentances, useFakeServer, delayInMilliSeconds);
+            summarizeWikipediaArticle = new SummarizeWikipediaArticle(articleToSummarize, numberOfSentances, useFakeServer, StepDefs.delayInMilliSeconds);
             assertThat("Should have timedout within " + delayInMilliSeconds + " milliseconds", true, is(false));
         } catch (Exception e) {
             assertThat(e.getClass().toString(),is("class java.net.SocketTimeoutException"));

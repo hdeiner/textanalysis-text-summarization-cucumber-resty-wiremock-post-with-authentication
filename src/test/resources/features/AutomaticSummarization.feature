@@ -3,7 +3,7 @@ Feature: Automatic Summarization Service
   http://textsummarization.net/text-summarization-api-document
 
   Scenario Outline: Wikipedia article on Cucumber_(software)
-    Given I am testing on the fake web service
+    Given I am testing on the actual web service
     When I summarize the wikipedia article for "Cucumber_(software)" in "6" sentances,
     Then sentence "<lineNumber>" should be "<sentence>"
 
@@ -31,6 +31,6 @@ Feature: Automatic Summarization Service
       |5         |The different types of automatic summarization include extraction-based, abstraction-based, maximum entropy-based, and aided summarization.                |
 
 
-  Scenario: Wikipedia article on Automatic_summarization timeout
-    Given I am testing on the actual web service with a timeout of "30" milliseconds
-    Then when I summarize the wikipedia article for "Automatic_summarization" in "5" sentances, I should see a timeout exception
+#  Scenario: Wikipedia article on Automatic_summarization timeout
+#    Given I am testing on the actual web service with a timeout of "10" milliseconds
+#    Then when I summarize the wikipedia article for "Automatic_summarization" in "5" sentances, I should see a timeout exception
